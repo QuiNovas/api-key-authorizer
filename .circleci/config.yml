@@ -6,3 +6,17 @@ jobs:
     steps:
       - checkout
       - run: python setup.py ldist
+workflows:
+  version: 2
+  develop:
+    jobs:
+      - build
+        filters:
+          branches:
+            only: develop
+  master:
+    jobs:
+      -build
+        filters:
+          branches:
+            only: master
