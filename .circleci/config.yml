@@ -1,22 +1,21 @@
 version: 2
 jobs:
-  build:
+  develop:
+    branches:
+      only:
+        - develop
     docker:
       - image: circleci/python:2.7
     steps:
       - checkout
       - run: python setup.py ldist
-workflows:
-  version: 2
-  develop:
-    jobs:
-      - build:
-        filters:
-          branches:
-            only: develop
   master:
-    jobs:
-      - build:
-        filters:
-          branches:
-            only: master
+    branches:
+      only:
+        - master
+    docker:
+      - image: circleci/python:2.7
+    steps:
+      - checkout
+      - run: echo "Hello master"
+
