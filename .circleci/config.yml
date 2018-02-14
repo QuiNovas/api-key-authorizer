@@ -21,6 +21,8 @@ workflows:
             branches:
               only:
                 - develop
+  build-and-upload:
+    jobs:
       - build-lupload:
           context: lambdalambdalambda
           filters:
