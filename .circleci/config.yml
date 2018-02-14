@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-ldist:
     docker:
       - image: circleci/python:2.7
     steps:
@@ -10,8 +10,8 @@ workflows:
   version: 2
   build-only:
     jobs:
-      - build:
+      - build-ldist:
         filters:
           branches:
-            only: develop
-            
+            only:
+              - develop
