@@ -9,11 +9,3 @@ jobs:
     steps:
       - checkout
       - run: python setup.py ldist
-workflows:
-  version: 2
-  build-develop:
-    jobs:
-      - build:
-        filters:
-          branches:
-            only: develop
