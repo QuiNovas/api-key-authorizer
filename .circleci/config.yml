@@ -10,13 +10,13 @@ workflows:
   version: 2
   develop:
     jobs:
-      - build
+      - build:
         filters:
           branches:
             only: develop
   master:
     jobs:
-      -build
+      - build:
         filters:
           branches:
             only: master
