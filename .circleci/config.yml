@@ -11,7 +11,7 @@ workflows:
   build-only:
     jobs:
       - build-ldist:
-        filters:
-          branches:
-            only:
-              - develop
+          filters:
+            branches:
+              only:
+                - develop
