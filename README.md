@@ -14,3 +14,4 @@ This function supports the following environment variables:
 Easy implementation of this function via Terraform may be found in the following module: 
 
 https://github.com/QuiNovas/terraform-modules/tree/master/aws/api-key-authenticator
+
