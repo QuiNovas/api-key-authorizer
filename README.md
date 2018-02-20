@@ -1,5 +1,9 @@
 # api-key-authorizer
-Uses HTTP Bearer Authentication against two dynamodb tables to authorize API Gateway API Key users. Note that this both implements suthorization and serves as an _AUTHORIZER_ for an API Gateway usage plan. 
+Uses a token passed in by API Gateway to retrieve the api key and authenticate against two dynamodb tables to authorize API Gateway API Key users.
+
+The token passed in can come from any identified header, including the *Authorization* header if contained in a bearer token.
+
+The extracted api key is returned as a *usageIdentifierKey* for API Gateway if so desired.
 
 The first table is the "api-key" table. This table contains the SHA256 hashed _Apikey_, and a _GroupId_.
 
@@ -8,7 +12,7 @@ If the API key is found in the "api-key" table (by hashing the key passed in fir
 The "groups" table contains the _GroupId_ and a _Policy_ JSON document representing the IAM policy document for that user. It is this document that is returned to API Gateway for further processing.
 
 This function supports the following environment variables:
-1. **API_KEYS_TABLE** - The DynamoDB table that contains the api key data, as listed above.
+1. **API_KEYS_TABLE_NAME** - The DynamoDB table that contains the api key data, as listed above.
 2. **GROUPS_TABLE_NAME** - The DynamoDB table that contains the groups data, as listed above.
 
 Easy implementation of this function via Terraform may be found in the following module: 

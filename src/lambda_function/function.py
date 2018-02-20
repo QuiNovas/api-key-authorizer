@@ -8,22 +8,21 @@ def handler(event, context):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 
-    auth_token = event['authorizationToken']
-    logger.info('Client Token: {}'.format(auth_token))
+    api_key = event['authorizationToken']
+    # If this starts with 'Bearer ' then we are receiving this
+    # from the Authorization header and need to sub-string
+    if api_key.startswith('Bearer '):
+        api_key = api_key[7:]
+    logger.info('Client Token: {}'.format(api_key))
     logger.info('Method ARN: {}'.format(event['methodArn']))
 
-    if not auth_token.startswith('Bearer '):
-        logger.warn('Incorrect authentication - not Bearer')
-        raise Exception('Unauthorized')
-
-    api_key = auth_token[7:]
     if len(api_key) == 0:
-        logger.warn('Incomplete bearer authentication - no api key present')
+        logger.warn('Incomplete authentication - no api key present')
         raise Exception('Unauthorized')
 
     dynamodb = boto3.resource('dynamodb')
 
-    api_keys_table = dynamodb.Table(os.environ['API_KEYS_TABLE'])
+    api_keys_table = dynamodb.Table(os.environ['API_KEYS_TABLE_NAME'])
 
     api_key_response = api_keys_table.get_item(
         Key={
@@ -32,7 +31,7 @@ def handler(event, context):
     )
 
     if 'Item' not in api_key_response:
-        logger.info('Username {} not in table {}'.format(api_key, os.environ['API_KEYS_TABLE']))
+        logger.info('API Key {} not in table {}'.format(api_key, os.environ['API_KEYS_TABLE_NAME']))
         raise Exception('Unauthorized')
 
     groups_table = dynamodb.Table(os.environ['GROUPS_TABLE_NAME'])
