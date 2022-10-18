@@ -46,7 +46,6 @@ jobs:
         run: |
           python3.9 setup.py ldist
           python3.9 setup.py lupload --access-key=${{ secrets.LAMBDALAMBDALAMBDA_ACCESS_KEY_ID }} --secret-access-key=${{ secrets.LAMBDALAMBDALAMBDA_SECRET_ACCESS_KEY }} --s3-bucket=${{ secrets.LAMBDALAMBDALAMBDA_BUCKET }} --s3-prefix=quinovas/api-key-authorizer/
-          twine upload -u "__token__" -p ${{ secrets.PYPI_TOKEN }} --non-interactive --disable-progress-bar dist/*.tar.gz dist/*.whl
         if: ${{ success() }}
   stop-runner:
     name: Stop self-hosted EC2 runner
